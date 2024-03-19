@@ -1,6 +1,8 @@
 ﻿#include"GameMap.h"
 #include"CommonFunction.h"
+#include"Main Object.h"
 #include"Base.h"
+#include"Player2.h"
 using namespace std;
 
 BaseObject g_Background;
@@ -67,8 +69,18 @@ int main(int argc, char* argv[])
 		return -2;
 	}
 	GameMap game_map;
-	game_map.loadMap("map01.dat");
+	game_map.loadMap("map/map01.dat");
 	game_map.LoadTiles(gScreen);
+
+	MainObject player;
+	player.LoadIMG("Character/player_right.png", gScreen);
+	player.set_clip();
+
+
+	MainObject2 player2;
+	player2.LoadIMG("Character/2.png", gScreen);
+	player2.set_clip();
+
 	bool is_quit = false;
 	while (!is_quit)
 	{
@@ -78,6 +90,10 @@ int main(int argc, char* argv[])
 			{
 				is_quit = true;
 			}
+
+			player.HandleInputEvents(g_Event, gScreen);
+			player2.HandleInputEvents(g_Event, gScreen);
+
 		}
 		SDL_SetRenderDrawColor(gScreen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
 		SDL_RenderClear(gScreen);
@@ -85,16 +101,29 @@ int main(int argc, char* argv[])
 
 
 		g_Background.Render(gScreen, NULL);
-		game_map.Drawmap(gScreen);
+		
+
+
+		Map map_data = game_map.getMap();
+
+		player.SetMapXY(map_data.start_x, map_data.start_y);
+		player.DoPlayer(map_data);
+		player.Show(gScreen);
+
+		player2.SetMapXY(map_data.start_x, map_data.start_y);
+		player2.DoPlayer(map_data);
+		player2.Show(gScreen);
+
+
+
+		game_map.SetMap(map_data);
+		game_map.Drawmap(gScreen); 
 
 
 		SDL_RenderPresent(gScreen);
+
 	}
 	close();
-
-
-
-	 
 	 return 0;
 }
 
