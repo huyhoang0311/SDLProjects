@@ -20,7 +20,7 @@ public:MainObject2();
 
 	  void DoPlayer(Map& map_data);
 	  void CheckToMap(Map& map_data);
-
+	  
 	  void SetMapXY(const int map_x, const int map_y)
 	  {
 		  map_x_ = map_x;
