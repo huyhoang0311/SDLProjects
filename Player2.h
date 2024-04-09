@@ -12,7 +12,7 @@ public:MainObject2();
 		  walk_right = 0,
 		  walk_left = 1,
 	  };
-	  virtual bool LoadIMG(std::string path, SDL_Renderer* screen);
+	  void LoadIMG(SDL_Renderer* screen);
 	  void Show(SDL_Renderer* des);
 	  void HandleInputEvents(SDL_Event events, SDL_Renderer* screen);
 	  void set_clip();
@@ -20,7 +20,7 @@ public:MainObject2();
 
 	  void DoPlayer(Map& map_data);
 	  void CheckToMap(Map& map_data);
-	  
+
 	  void SetMapXY(const int map_x, const int map_y)
 	  {
 		  map_x_ = map_x;
@@ -38,7 +38,8 @@ private:
 
 
 
-
+	SDL_Texture* p_object_left;
+	SDL_Texture* p_object_right;
 
 
 	int width_frame;

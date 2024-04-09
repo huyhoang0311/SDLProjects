@@ -1,10 +1,11 @@
 #include"Main Object.h"
+#include"BulletObject.h"
 using namespace std;
 
 #define GRAVITY_SPEED 0.8
 #define MAX_FALL_SPEED 10
 #define PLAYER_SPEED 2
-
+#define PLAYER_JUMP_VAL 18
 
 
 #define BLANK_TILE 0
@@ -27,21 +28,56 @@ MainObject::MainObject()
 	on_ground_ = false;
 	map_x_ = 0;
 	map_y_ = 0;
+	p_object_left = NULL;
+	p_object_right = NULL;
+
 }
 MainObject::~MainObject()
 {
 
 }
-bool MainObject::LoadIMG(string path, SDL_Renderer* screen)
-{
-	bool ret = BaseObject::loadImg(path, screen);
-	if (ret == true)
-	{
-		width_frame = rect_.w / 8;
-		height_frame = rect_.h;
-	}
-	return ret;
+
+
+ void MainObject::LoadIMG( SDL_Renderer* screen)
+{	
+	 string path_left = "Character/player_left.png" ;
+	 SDL_Texture* new_texture_left = NULL;
+	 SDL_Surface* load_surface = IMG_Load(path_left.c_str());
+	 if (load_surface != NULL)
+	 {
+		 SDL_SetColorKey(load_surface, SDL_TRUE, SDL_MapRGB(load_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
+		 new_texture_left = SDL_CreateTextureFromSurface(screen, load_surface);
+		 if (new_texture_left != NULL)
+		 {
+			 rect_.w = load_surface->w;
+			 rect_.h = load_surface->h;
+		 }
+		 SDL_FreeSurface(load_surface);
+	 }
+	 p_object_left = new_texture_left;
+
+	 string path_right = "Character/player_right.png";
+	 SDL_Texture* new_texture_right = NULL;
+	   load_surface = IMG_Load(path_right.c_str());
+	 if (load_surface != NULL)
+	 {
+		 SDL_SetColorKey(load_surface, SDL_TRUE, SDL_MapRGB(load_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
+		 new_texture_left = SDL_CreateTextureFromSurface(screen, load_surface);
+		 if (new_texture_left != NULL)
+		 {
+			 rect_.w = load_surface->w;
+			 rect_.h = load_surface->h;
+		 }
+		 SDL_FreeSurface(load_surface);
+	 }
+	 p_object_right = new_texture_left;
+
+
+
+	width_frame = rect_.w / 8;
+	height_frame = rect_.h;
 }
+
 void MainObject::set_clip()
 {
 	if (width_frame > 0 && height_frame > 0)
@@ -62,14 +98,7 @@ void MainObject::set_clip()
 
 void MainObject::Show(SDL_Renderer* des)
 {
-	if (status_ == walk_left)
-	{
-		LoadIMG("Character/player_left.png", des);
-	}
-	else
-	{
-		LoadIMG("Character/player_right.png", des);
-	}
+	
 
 	if (input_type_.left_ == 1 || input_type_.right_ == 1)
 	{
@@ -88,7 +117,16 @@ void MainObject::Show(SDL_Renderer* des)
 	rect_.y = y_pos - map_y_;
 	SDL_Rect *current_clip = &frame_clip_[frame_];
 	SDL_Rect  renderQuad = { rect_.x, rect_.y, width_frame, height_frame };
-	SDL_RenderCopy(des, p_object, current_clip, &renderQuad);
+
+	if (status_ == walk_left)
+	{
+		SDL_RenderCopy(des, p_object_left, current_clip, &renderQuad);
+	}
+	else
+	{
+		SDL_RenderCopy(des, p_object_right, current_clip, &renderQuad);
+	}
+	
 }
 
 void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
@@ -130,6 +168,20 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		break;
 		}
 	}
+
+	//special movement
+	if (events.type == SDL_KEYDOWN)
+	{
+		if (events.key.keysym.sym == SDLK_g)
+		{
+			input_type_.jump_ = 1;
+		}
+		if (events.key.keysym.sym == SDLK_h)
+		{
+			BulletObject* p_bullet = new BulletObject();
+			p_bullet->loadImg("Bullet.png",screen);
+		}
+	}
 }
 
 
@@ -148,6 +200,16 @@ void MainObject::DoPlayer(Map& map_data_)
 	else if (input_type_.right_ == 1)
 	{
 		x_val += PLAYER_SPEED;
+	}
+
+	if (input_type_.jump_ == 1)
+	{
+		y_val = -PLAYER_JUMP_VAL;
+		input_type_.jump_ = 0;
+
+
+
+
 	}
 	CheckToMap(map_data_);
 	CenterEntityOnMap(map_data_);

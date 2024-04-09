@@ -39,7 +39,8 @@ bool InitData()
 
 bool loadBackground()
 {
-	bool ret = g_Background.loadImg("BackGround.jpg",gScreen);
+	
+	bool ret = g_Background.loadImg("OIG3.jpg",gScreen);
 	if (ret == false)
 	{
 		return false;
@@ -73,12 +74,12 @@ int main(int argc, char* argv[])
 	game_map.LoadTiles(gScreen);
 
 	MainObject player;
-	player.LoadIMG("Character/player_right.png", gScreen);
+	player.LoadIMG(gScreen);
 	player.set_clip();
 
 
 	MainObject2 player2;
-	player2.LoadIMG("Character/2.png", gScreen);
+	player2.LoadIMG(gScreen);
 	player2.set_clip();
 
 	bool is_quit = false;

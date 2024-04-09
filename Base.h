@@ -21,6 +21,7 @@ public:
 protected:
 	SDL_Texture* p_object;
 	SDL_Rect rect_;
+
 };
 
 #endif 

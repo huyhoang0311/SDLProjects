@@ -1,6 +1,11 @@
 #pragma once
 #ifndef MAIN_OBJECT_H
 #define MAIN_OBJECT_H
+
+
+using namespace std;
+#include<vector>
+#include"BulletObject.h"
 #include"Base.h"
 #include"CommonFunction.h"
 class MainObject :public BaseObject
@@ -10,24 +15,37 @@ public:MainObject();
 	  enum Walktype
 	  {
 		  walk_right = 0,
-	      walk_left = 1,
+		  walk_left = 1,
 	  };
-	 virtual bool LoadIMG(std::string path, SDL_Renderer* screen);
+	  void LoadIMG(SDL_Renderer* screen);
 	  void Show(SDL_Renderer* des);
 	  void HandleInputEvents(SDL_Event events, SDL_Renderer* screen);
 	  void set_clip();
 
 
-	  void DoPlayer(Map &map_data);
+	  void DoPlayer(Map& map_data);
 	  void CheckToMap(Map& map_data);
 
-	  void SetMapXY(const int map_x,const int map_y) 
+	  void SetMapXY(const int map_x, const int map_y)
 	  {
 		  map_x_ = map_x;
 		  map_y_ = map_y;
 	  }
 	  void CenterEntityOnMap(Map& map_data);
+
+	  void set_bullet_list(vector<BulletObject*> bullet_list)
+	  {
+		 p_bullet_list = bullet_list;
+	  }
+	  vector<BulletObject*> get_bullet_list() const
+	  {
+		  return p_bullet_list;
+	  }
+
 private:
+
+	vector<BulletObject*> p_bullet_list;
+
 	float x_val;
 	float y_val;
 
@@ -35,8 +53,17 @@ private:
 	float x_pos;
 	float y_pos;
 
+
+
+
+	SDL_Texture* p_object_left;
+	SDL_Texture* p_object_right;
+
+
 	int width_frame;
 	int height_frame;
+
+
 
 
 	SDL_Rect frame_clip_[8];
@@ -49,9 +76,9 @@ private:
 
 
 	int status_;
-	
 
-	bool on_ground_ ;
+
+	bool on_ground_;
 
 	int map_x_, map_y_;
 };
@@ -62,3 +89,6 @@ private:
 
 
 #endif 
+
+
+

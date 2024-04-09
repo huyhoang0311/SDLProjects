@@ -14,6 +14,7 @@ BaseObject::~BaseObject()
 	Free();
 }
 
+
 bool BaseObject::loadImg(std::string path, SDL_Renderer* screen)
 {
 	SDL_Texture* new_texture = NULL;
