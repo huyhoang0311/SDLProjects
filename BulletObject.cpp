@@ -12,10 +12,23 @@ BulletObject::~BulletObject()
 }
 void BulletObject::HandleMove(const int& x_border, const int& y_border)
 {
-	rect_.x = x_val;
-	rect_.y = y_val;
-	if (rect_.x > x_border)
+
+	if (bullet_dir == DIR_RIGHT)
 	{
-		in_screen = false;
+		rect_.x += x_val;
+		if (rect_.x > x_border)
+		{
+			in_screen = false;
+		}
 	}
+	else if(bullet_dir==DIR_LEFT)
+	{
+		rect_.x -= x_val;
+		if (rect_.x < 0)
+		{
+			in_screen = false;
+		}
+
+	}
+
 }

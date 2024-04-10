@@ -2,7 +2,10 @@
 #ifndef PLAYER2_OBJECT_H
 #define PLAYER2_OBJECT_H
 #include"Base.h"
+#include"BulletObject.h"
 #include"CommonFunction.h"
+#include<vector>
+using namespace std;
 class MainObject2 :public BaseObject
 {
 public:MainObject2();
@@ -27,7 +30,22 @@ public:MainObject2();
 		  map_y_ = map_y;
 	  }
 	  void CenterEntityOnMap(Map& map_data);
+
+	  void set_bullet_list(vector<BulletObject*> bullet_list)
+	  {
+		  p_bullet_list_2 = bullet_list;
+	  }
+	  vector<BulletObject*> get_bullet_list() const
+	  {
+		  return p_bullet_list_2;
+	  }
+	  void HandleBullet(SDL_Renderer* des);
+	 
+
 private:
+
+	vector<BulletObject*> p_bullet_list_2;
+
 	float x_val;
 	float y_val;
 

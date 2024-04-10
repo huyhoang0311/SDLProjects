@@ -41,6 +41,7 @@ public:MainObject();
 	  {
 		  return p_bullet_list;
 	  }
+	  void HandleBullet(SDL_Renderer* des);
 
 private:
 

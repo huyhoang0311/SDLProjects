@@ -112,8 +112,9 @@ int main(int argc, char* argv[])
 		player2.SetMapXY(map_data.start_x, map_data.start_y);
 		player2.DoPlayer(map_data);
 		player2.Show(gScreen);
+		player2.HandleBullet(gScreen);
 
-
+		player.HandleBullet(gScreen);
 		player.SetMapXY(map_data.start_x, map_data.start_y);
 		player.DoPlayer(map_data);
 		player.Show(gScreen);

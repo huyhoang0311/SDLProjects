@@ -1,5 +1,6 @@
 
 #include"Player2.h"
+#include"BulletObject.h"
 using namespace std;
 
 #define GRAVITY_SPEED 0.8
@@ -168,8 +169,52 @@ void MainObject2::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		{
 			input_type_.jump_ = 1;
 		}
-
+		if (events.key.keysym.sym == SDLK_n)
+		{
+			BulletObject* p_bullet = new BulletObject();
+			p_bullet->loadImg("Bullet.png", screen);
+			if (status_ == walk_left)
+			{
+				p_bullet->get_bullet_dir(DIR_LEFT);
+				p_bullet->set_bullet_dir(DIR_LEFT);
+				
+			}
+			else if (status_ = walk_right)
+			{
+				p_bullet->get_bullet_dir(DIR_RIGHT);
+				p_bullet->set_bullet_dir(DIR_RIGHT);
+			}
+			p_bullet->SetRect(rect_.x, rect_.y + 10);
+			
+			p_bullet->set_x_val(1);
+			//p_bullet->set_y_val(40);
+			p_bullet->set_in_screen(true);
+			p_bullet_list_2.push_back(p_bullet);
+		}
 	}
+
+}
+void MainObject2::HandleBullet(SDL_Renderer* des)
+{
+	int num_ = p_bullet_list_2.size();
+	for (int i = 0; i < num_; ++i)
+	{
+		BulletObject* p_bullet = p_bullet_list_2.at(i);
+		if (p_bullet != NULL)
+		{
+			if (p_bullet->get_in_screen() == true)
+			{
+				p_bullet->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+				p_bullet->Render(des);
+			}
+			else
+			{
+				p_bullet = NULL;
+
+			}
+		}
+	}
+
 }
 
 
