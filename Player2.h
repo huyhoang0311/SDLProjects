@@ -42,7 +42,12 @@ public:MainObject2();
 	  }
 	  void HandleBullet(SDL_Renderer* des);
 	 
+	  void RemoveBullet(const int& idx);
 
+	  float get_x_pos();
+	  float get_y_pos();
+	  int get_width_frame();
+	  int get_height_frame();
 private:
 
 	vector<BulletObject*> p_bullet_list_2;

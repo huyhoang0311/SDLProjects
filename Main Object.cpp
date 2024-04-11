@@ -191,17 +191,13 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 				p_bullet->get_bullet_dir(DIR_RIGHT);
 				p_bullet->set_bullet_dir(DIR_RIGHT);
 			}
-
-
-
-
-
 			p_bullet->SetRect(rect_.x +  30,rect_.y);
 			p_bullet->set_x_val(BULLET_SPEED);
 			//p_bullet->set_y_val(40);
 			p_bullet->set_in_screen(true);
 			p_bullet_list.push_back(p_bullet);
 		}
+		
 	}
 }
 
@@ -221,7 +217,11 @@ void MainObject::HandleBullet(SDL_Renderer*des)
 			}
 			else
 			{
-				p_bullet = NULL;
+				if (p_bullet != NULL)
+				{
+					delete  p_bullet;
+					p_bullet = NULL;
+				}
 				
 			}
 		}
@@ -352,6 +352,38 @@ void MainObject::CheckToMap(Map& map_data)
 	{
 		x_pos = map_data.max_x_ - width_frame - 1;
 	}
-	
+}
 
+void MainObject::RemoveBullet(const int& idx)
+{
+	int size = p_bullet_list.size();
+	if(size > 0 && idx < size)
+	{
+		BulletObject* p_bullet = p_bullet_list.at(idx);
+		p_bullet_list.erase(p_bullet_list.begin() + idx);
+		p_bullet = NULL;
+	}
+}
+
+
+
+
+
+
+
+float MainObject::get_x_pos()
+{
+	return x_pos;
+}
+float MainObject::get_y_pos()
+{
+	return y_pos;
+}
+int MainObject::get_height_frame()
+{
+	return height_frame;
+}
+int MainObject::get_width_frame()
+{
+	return width_frame;
 }

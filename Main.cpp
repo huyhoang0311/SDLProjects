@@ -137,6 +137,82 @@ int main(int argc, char* argv[])
 		game_map.Drawmap(gScreen); 
 
 
+		vector<BulletObject*> bullet_arr = player2.get_bullet_list();
+		for (int r = 0; r<int(bullet_arr.size());++r)
+		{
+			BulletObject* p2_bullet = bullet_arr.at(r);
+			if (p2_bullet != NULL)
+			{
+				SDL_Rect p1Rect;
+				p1Rect.x = player.get_x_pos();
+				p1Rect.y = player.get_y_pos();
+				p1Rect.w = player.get_width_frame();
+				p1Rect.h = player.get_height_frame();
+				SDL_Rect bullet_Rect = p2_bullet->GetRect();
+
+				bool check1 = CommonFunction::CheckCollision(p1Rect, bullet_Rect);
+				if (check1)
+				{
+					player2.RemoveBullet(r);
+					
+				}
+			}
+		}
+		vector<BulletObject*> bullet_arr_1 = player.get_bullet_list();
+		for (int r = 0; r<int(bullet_arr_1.size()); ++r)
+		{
+			BulletObject* p1_bullet = bullet_arr_1.at(r);
+			if (p1_bullet != NULL)
+			{
+				SDL_Rect p2Rect;
+				p2Rect.x = player2.get_x_pos();
+				p2Rect.y = player2.get_y_pos();
+				p2Rect.w = player2.get_width_frame();
+				p2Rect.h = player2.get_height_frame();
+				SDL_Rect bullet_Rect_1 = p1_bullet->GetRect();
+
+				bool check2 = CommonFunction::CheckCollision(p2Rect, bullet_Rect_1);
+				if (check2)
+				{
+					player.RemoveBullet(r);
+					
+
+
+
+					
+				}
+			}
+		}
+		for (int ii = 0; ii<int(bullet_arr_1.size()); ++ii)
+		{
+			BulletObject* p1_bullet_ = bullet_arr_1.at(ii);
+			for (int jj = 0; jj<int(bullet_arr.size()); ++jj)
+			{
+				BulletObject* p2_bullet_ = bullet_arr.at(jj);
+				SDL_Rect bullet_Rect_a = p2_bullet_->GetRect();
+				SDL_Rect bullet_Rect_b = p1_bullet_->GetRect();
+				bool check3 = CommonFunction::CheckCollision(bullet_Rect_a, bullet_Rect_b);
+				if (check3)
+				{
+					player.RemoveBullet(ii);
+					player2.RemoveBullet(jj);
+				}
+			}
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
 		SDL_RenderPresent(gScreen);
 
 

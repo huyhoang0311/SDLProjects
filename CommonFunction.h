@@ -43,11 +43,6 @@ typedef struct Input
 	int down_;
 	int jump_;
 };
-
-
-
-
-
 typedef struct Map
 {
 	int start_x;
@@ -58,5 +53,14 @@ typedef struct Map
 	int tile[MAX_MAP_Y][MAX_MAP_X];
 	char* file_name;
 };
+
+namespace CommonFunction
+{      
+	bool CheckCollision(const SDL_Rect& object1, const SDL_Rect& object2);
+    
+}
+
+
+
 
 #endif

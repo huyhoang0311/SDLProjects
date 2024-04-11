@@ -350,3 +350,35 @@ void MainObject2::CheckToMap(Map& map_data)
 
 
 }
+void MainObject2::RemoveBullet(const int& idx)
+{
+	int size = p_bullet_list_2.size();
+	if (size > 0 && idx < size)
+	{
+		BulletObject* p_bullet = p_bullet_list_2.at(idx);
+		p_bullet_list_2.erase(p_bullet_list_2.begin() + idx);
+		if (p_bullet != NULL)
+		{
+			delete p_bullet;
+			p_bullet = NULL;
+		}
+	}
+}
+
+
+float MainObject2::get_x_pos()
+{
+	return x_pos;
+}
+float MainObject2::get_y_pos()
+{
+	return y_pos;
+}
+int MainObject2::get_height_frame()
+{
+	return height_frame;
+}
+int MainObject2::get_width_frame()
+{
+	return width_frame;
+}

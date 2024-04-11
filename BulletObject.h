@@ -40,7 +40,6 @@ public:
 	{
 		return bullet_dir;
 	}
-
 private:
 	int x_val;
 	int y_val;
