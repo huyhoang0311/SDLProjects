@@ -4,6 +4,7 @@
 #include"Base.h"
 #include"BulletObject.h"
 #include"CommonFunction.h"
+#include"Main Object.h"
 #include<vector>
 using namespace std;
 class MainObject2 :public BaseObject

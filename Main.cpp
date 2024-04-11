@@ -3,6 +3,7 @@
 #include"Main Object.h"
 #include"Base.h"
 #include"Player2.h"
+#include"Timer.h"
 using namespace std;
 
 BaseObject g_Background;
@@ -61,6 +62,14 @@ void close()
 
 int main(int argc, char* argv[])
 {
+	Timer fps_clock;
+
+
+
+
+
+
+
 	if (InitData() == false)
 	{
 		return -1;
@@ -85,6 +94,7 @@ int main(int argc, char* argv[])
 	bool is_quit = false;
 	while (!is_quit)
 	{
+		fps_clock.start();
 		while (SDL_PollEvent(&g_Event) != 0)
 		{
 			if (g_Event.type == SDL_QUIT)
@@ -129,6 +139,15 @@ int main(int argc, char* argv[])
 
 		SDL_RenderPresent(gScreen);
 
+
+		int real_time = fps_clock.get_ticks();
+		int time_one_frame = 1000 / FRAME_PER_SEC;
+
+		if (real_time < time_one_frame)
+		{
+			int delay_time = time_one_frame - real_time;
+			SDL_Delay(delay_time);
+		}
 	}
 	close();
 	 return 0;

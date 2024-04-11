@@ -148,6 +148,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="CommonFunction.cpp" />
     <ClCompile Include="Player2.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BulletObject.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="Main Object.h" />
     <ClInclude Include="Player2.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

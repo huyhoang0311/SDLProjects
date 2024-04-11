@@ -1,11 +1,12 @@
 
 #include"Player2.h"
 #include"BulletObject.h"
-using namespace std;
 
+using namespace std;
+#define BULLET_SPEED 20
 #define GRAVITY_SPEED 0.8
 #define MAX_FALL_SPEED 10
-#define PLAYER_SPEED 2
+#define PLAYER_SPEED 20
 #define PLAYER_JUMP_VAL 18
 
 
@@ -172,21 +173,23 @@ void MainObject2::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		if (events.key.keysym.sym == SDLK_n)
 		{
 			BulletObject* p_bullet = new BulletObject();
-			p_bullet->loadImg("Bullet.png", screen);
+			
 			if (status_ == walk_left)
 			{
+				p_bullet->loadImg("Bullet/Bullet_left.png", screen);
 				p_bullet->get_bullet_dir(DIR_LEFT);
 				p_bullet->set_bullet_dir(DIR_LEFT);
 				
 			}
 			else if (status_ = walk_right)
 			{
+				p_bullet->loadImg("Bullet/Bullet.png", screen);
 				p_bullet->get_bullet_dir(DIR_RIGHT);
 				p_bullet->set_bullet_dir(DIR_RIGHT);
 			}
 			p_bullet->SetRect(rect_.x, rect_.y + 10);
 			
-			p_bullet->set_x_val(1);
+			p_bullet->set_x_val(BULLET_SPEED);
 			//p_bullet->set_y_val(40);
 			p_bullet->set_in_screen(true);
 			p_bullet_list_2.push_back(p_bullet);

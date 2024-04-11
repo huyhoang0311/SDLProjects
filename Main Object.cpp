@@ -4,10 +4,9 @@ using namespace std;
 
 #define GRAVITY_SPEED 0.8
 #define MAX_FALL_SPEED 10
-#define PLAYER_SPEED 2
+#define PLAYER_SPEED 20
 #define PLAYER_JUMP_VAL 18
-
-
+#define BULLET_SPEED 20
 #define BLANK_TILE 0
 
 
@@ -179,14 +178,16 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		if (events.key.keysym.sym == SDLK_h)
 		{
 			BulletObject* p_bullet = new BulletObject();
-			p_bullet->loadImg("Laser.png",screen);
+			p_bullet->loadImg("Bullet/Laser.png", screen);
 			if (status_ == walk_left)
 			{
+				p_bullet->loadImg("Bullet/Laser_left.png", screen);
 				p_bullet->get_bullet_dir(DIR_LEFT);
 				p_bullet->set_bullet_dir(DIR_LEFT);
 			}
 			else if (status_ = walk_right)
 			{
+				
 				p_bullet->get_bullet_dir(DIR_RIGHT);
 				p_bullet->set_bullet_dir(DIR_RIGHT);
 			}
@@ -196,7 +197,7 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 
 
 			p_bullet->SetRect(rect_.x +  30,rect_.y);
-			p_bullet->set_x_val(1);
+			p_bullet->set_x_val(BULLET_SPEED);
 			//p_bullet->set_y_val(40);
 			p_bullet->set_in_screen(true);
 			p_bullet_list.push_back(p_bullet);
@@ -250,10 +251,6 @@ void MainObject::DoPlayer(Map& map_data_)
 	{
 		y_val = -PLAYER_JUMP_VAL;
 		input_type_.jump_ = 0;
-
-
-
-
 	}
 	CheckToMap(map_data_);
 	CenterEntityOnMap(map_data_);
