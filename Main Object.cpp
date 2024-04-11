@@ -219,7 +219,7 @@ void MainObject::HandleBullet(SDL_Renderer*des)
 			{
 				if (p_bullet != NULL)
 				{
-					delete  p_bullet;
+					
 					p_bullet = NULL;
 				}
 				

@@ -166,11 +166,11 @@ void MainObject2::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 	//special skill
 	if (events.type == SDL_KEYDOWN)
 	{
-		if (events.key.keysym.sym == SDLK_m)
+		if (events.key.keysym.sym == SDLK_k)
 		{
 			input_type_.jump_ = 1;
 		}
-		if (events.key.keysym.sym == SDLK_n)
+		if (events.key.keysym.sym == SDLK_l)
 		{
 			BulletObject* p_bullet = new BulletObject();
 			
@@ -359,7 +359,7 @@ void MainObject2::RemoveBullet(const int& idx)
 		p_bullet_list_2.erase(p_bullet_list_2.begin() + idx);
 		if (p_bullet != NULL)
 		{
-			delete p_bullet;
+			
 			p_bullet = NULL;
 		}
 	}

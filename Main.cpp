@@ -137,8 +137,11 @@ int main(int argc, char* argv[])
 		game_map.Drawmap(gScreen); 
 
 
+
+
+
 		vector<BulletObject*> bullet_arr = player2.get_bullet_list();
-		for (int r = 0; r<int(bullet_arr.size());++r)
+		for (int r = 0; r<int(bullet_arr.size()); ++r)
 		{
 			BulletObject* p2_bullet = bullet_arr.at(r);
 			if (p2_bullet != NULL)
@@ -176,10 +179,6 @@ int main(int argc, char* argv[])
 				{
 					player.RemoveBullet(r);
 					
-
-
-
-					
 				}
 			}
 		}
@@ -198,21 +197,7 @@ int main(int argc, char* argv[])
 					player2.RemoveBullet(jj);
 				}
 			}
-
-
 		}
-
-
-
-
-
-
-
-
-
-
-
-
 		SDL_RenderPresent(gScreen);
 
 
@@ -226,5 +211,5 @@ int main(int argc, char* argv[])
 		}
 	}
 	close();
-	 return 0;
+	return 0;
 }
