@@ -7,7 +7,7 @@ using namespace std;
 #define GRAVITY_SPEED 0.8
 #define MAX_FALL_SPEED 10
 #define PLAYER_SPEED 20
-#define PLAYER_JUMP_VAL 18
+#define PLAYER_JUMP_VAL 12
 
 
 
@@ -173,7 +173,7 @@ void MainObject2::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		if (events.key.keysym.sym == SDLK_l)
 		{
 			BulletObject* p_bullet = new BulletObject();
-			
+			p_bullet->loadImg("Bullet/Bullet.png", screen);
 			if (status_ == walk_left)
 			{
 				p_bullet->loadImg("Bullet/Bullet_left.png", screen);
@@ -183,7 +183,7 @@ void MainObject2::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 			}
 			else if (status_ = walk_right)
 			{
-				p_bullet->loadImg("Bullet/Bullet.png", screen);
+				
 				p_bullet->get_bullet_dir(DIR_RIGHT);
 				p_bullet->set_bullet_dir(DIR_RIGHT);
 			}
@@ -368,11 +368,11 @@ void MainObject2::RemoveBullet(const int& idx)
 
 float MainObject2::get_x_pos()
 {
-	return x_pos;
+	return rect_.x;
 }
 float MainObject2::get_y_pos()
 {
-	return y_pos;
+	return rect_.y;
 }
 int MainObject2::get_height_frame()
 {

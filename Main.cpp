@@ -137,7 +137,8 @@ int main(int argc, char* argv[])
 		game_map.Drawmap(gScreen); 
 
 
-
+		int health_1 = 5;
+		int health_2 = 5;
 
 
 		vector<BulletObject*> bullet_arr = player2.get_bullet_list();
@@ -153,11 +154,12 @@ int main(int argc, char* argv[])
 				p1Rect.h = player.get_height_frame();
 				SDL_Rect bullet_Rect = p2_bullet->GetRect();
 
-				bool check1 = CommonFunction::CheckCollision(p1Rect, bullet_Rect);
+				bool check1 = CommonFunction::CheckCollision(bullet_Rect, p1Rect);
 				if (check1)
 				{
 					player2.RemoveBullet(r);
-					
+					 
+					is_quit = true;
 				}
 			}
 		}
@@ -174,10 +176,13 @@ int main(int argc, char* argv[])
 				p2Rect.h = player2.get_height_frame();
 				SDL_Rect bullet_Rect_1 = p1_bullet->GetRect();
 
-				bool check2 = CommonFunction::CheckCollision(p2Rect, bullet_Rect_1);
+				bool check2 = CommonFunction::CheckCollision( bullet_Rect_1, p2Rect );
 				if (check2)
 				{
+					
 					player.RemoveBullet(r);
+					is_quit = true;
+					
 					
 				}
 			}

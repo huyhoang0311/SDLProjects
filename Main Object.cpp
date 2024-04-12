@@ -5,7 +5,7 @@ using namespace std;
 #define GRAVITY_SPEED 0.8
 #define MAX_FALL_SPEED 10
 #define PLAYER_SPEED 20
-#define PLAYER_JUMP_VAL 18
+#define PLAYER_JUMP_VAL 12
 #define BULLET_SPEED 20
 #define BLANK_TILE 0
 
@@ -373,11 +373,11 @@ void MainObject::RemoveBullet(const int& idx)
 
 float MainObject::get_x_pos()
 {
-	return x_pos;
+	return rect_.x;
 }
 float MainObject::get_y_pos()
 {
-	return y_pos;
+	return rect_.y;
 }
 int MainObject::get_height_frame()
 {

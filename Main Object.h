@@ -45,6 +45,7 @@ public:MainObject();
 
 	  void RemoveBullet(const int& idx);
 	  
+	
 	  float get_x_pos();
 	  float get_y_pos();
 	  int get_width_frame();

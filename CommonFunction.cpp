@@ -1,7 +1,8 @@
 
 #include"CommonFunction.h"
 
-bool CommonFunction::CheckCollision(const SDL_Rect & object1, const SDL_Rect & object2)
+
+bool CommonFunction::CheckCollision(const SDL_Rect& object1, const SDL_Rect& object2)
 {
     int left_a = object1.x;
     int right_a = object1.x + object1.w;
