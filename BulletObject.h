@@ -8,6 +8,7 @@
 
 #define DIR_RIGHT 0
 #define DIR_LEFT 1
+#define DIR_DOWN 2
 
 class BulletObject:public BaseObject
 {

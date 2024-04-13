@@ -28,7 +28,14 @@ void BulletObject::HandleMove(const int& x_border, const int& y_border)
 		{
 			in_screen = false;
 		}
-
+	}
+	else if (bullet_dir = DIR_DOWN)
+	{
+		rect_.y += y_val;
+		if (rect_.y >= y_border)
+		{
+			in_screen = false;
+		}
 	}
 
 }

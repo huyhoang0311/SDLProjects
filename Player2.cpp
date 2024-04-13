@@ -29,6 +29,7 @@ MainObject2::MainObject2()
 	input_type_.up_ = 0;
 	input_type_.down_ = 0;
 	on_ground_ = false;
+	normalise = true;
 	map_x_ = 0;
 	map_y_ = 0;
 }
@@ -38,41 +39,72 @@ MainObject2::~MainObject2()
 }
 void MainObject2::LoadIMG( SDL_Renderer* screen)
 {
-	string path_left = "Character/2.png";
-	SDL_Texture* new_texture_left = NULL;
+	string path_left, path_right,demon_left,demon_right;
+	path_left = "Character/DemonSpiderWalkLeft.png";
+	SDL_Texture* new_texture_ = NULL;
 	SDL_Surface* load_surface = IMG_Load(path_left.c_str());
 	if (load_surface != NULL)
 	{
 		SDL_SetColorKey(load_surface, SDL_TRUE, SDL_MapRGB(load_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
-		new_texture_left = SDL_CreateTextureFromSurface(screen, load_surface);
-		if (new_texture_left != NULL)
+		new_texture_ = SDL_CreateTextureFromSurface(screen, load_surface);
+		if (new_texture_ != NULL)
 		{
 			rect_.w = load_surface->w;
 			rect_.h = load_surface->h;
 		}
 		SDL_FreeSurface(load_surface);
 	}
-	p_object_left = new_texture_left;
+	p_object_left = new_texture_;
 
-	string path_right = "Character/1.png";
-	SDL_Texture* new_texture_right = NULL;
+	path_right =  "Character/DemonSpiderWalk.png";
 	load_surface = IMG_Load(path_right.c_str());
 	if (load_surface != NULL)
 	{
 		SDL_SetColorKey(load_surface, SDL_TRUE, SDL_MapRGB(load_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
-		new_texture_left = SDL_CreateTextureFromSurface(screen, load_surface);
-		if (new_texture_left != NULL)
+		new_texture_ = SDL_CreateTextureFromSurface(screen, load_surface);
+		if (new_texture_ != NULL)
 		{
 			rect_.w = load_surface->w;
 			rect_.h = load_surface->h;
 		}
 		SDL_FreeSurface(load_surface);
 	}
-	p_object_right = new_texture_left;
+	p_object_right = new_texture_;
 
 
+	demon_left = "Character/AngelOfDeathFlyLeft.png";
 
-	width_frame = rect_.w / 8;
+	SDL_Texture* demon_texture_ = NULL;
+	SDL_Surface* demon_surface = IMG_Load(demon_left.c_str());
+	if (demon_surface != NULL)
+	{
+		SDL_SetColorKey(demon_surface, SDL_TRUE, SDL_MapRGB(demon_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
+		demon_texture_ = SDL_CreateTextureFromSurface(screen, demon_surface);
+		if (demon_texture_ != NULL)
+		{
+			rect_.w = demon_surface->w;
+			rect_.h = demon_surface->h;
+		}
+		SDL_FreeSurface(demon_surface);
+	}
+	demon_mode_left = demon_texture_;
+
+	demon_right = "Character/AngelOfDeathFly.png";
+	demon_surface = IMG_Load(demon_right.c_str());
+	if (demon_surface != NULL)
+	{
+		SDL_SetColorKey(demon_surface, SDL_TRUE, SDL_MapRGB(demon_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
+		demon_texture_ = SDL_CreateTextureFromSurface(screen, demon_surface);
+		if (demon_texture_ != NULL)
+		{
+			rect_.w = demon_surface->w;
+			rect_.h = demon_surface->h;
+		}
+		SDL_FreeSurface(demon_surface);
+	}
+	demon_mode_right = demon_texture_;
+
+	width_frame = rect_.w /NUM_FRAME_2;
 	height_frame = rect_.h;
 }
 void MainObject2::set_clip()
@@ -80,7 +112,7 @@ void MainObject2::set_clip()
 	if (width_frame > 0 && height_frame > 0)
 	{
 
-		for (int i = 0; i <= 7; ++i)
+		for (int i = 0; i < NUM_FRAME_2; ++i)
 		{
 			frame_clip_[i].x = i * width_frame;
 			frame_clip_[i].y = 0;
@@ -88,8 +120,6 @@ void MainObject2::set_clip()
 			frame_clip_[i].h = height_frame;
 
 		}
-
-
 	}
 }
 
@@ -103,7 +133,7 @@ void MainObject2::Show(SDL_Renderer* des)
 	{
 		frame_ = 0;
 	}
-	if (frame_ >= 8)
+	if (frame_ >= NUM_FRAME_2)
 	{
 		frame_ = 0;
 	}
@@ -113,13 +143,28 @@ void MainObject2::Show(SDL_Renderer* des)
 	SDL_Rect* current_clip = &frame_clip_[frame_];
 	SDL_Rect  renderQuad = { rect_.x, rect_.y, width_frame, height_frame };
 
-	if (status_ == walk_left)
+	if (normalise == true)
 	{
-		SDL_RenderCopy(des, p_object_left, current_clip, &renderQuad);
+		if (status_ == walk_left)
+		{
+			SDL_RenderCopy(des, p_object_left, current_clip, &renderQuad);
+		}
+		else
+		{
+			SDL_RenderCopy(des, p_object_right, current_clip, &renderQuad);
+		}
 	}
-	else
+	else 
 	{
-		SDL_RenderCopy(des, p_object_right, current_clip, &renderQuad);
+		if (status_ == walk_left)
+		{
+			SDL_RenderCopy(des, demon_mode_left, current_clip, &renderQuad);
+		}
+		else
+		{
+			SDL_RenderCopy(des, demon_mode_right, current_clip, &renderQuad);
+		}
+
 	}
 }
 
@@ -166,11 +211,11 @@ void MainObject2::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 	//special skill
 	if (events.type == SDL_KEYDOWN)
 	{
-		if (events.key.keysym.sym == SDLK_k)
+		if (events.key.keysym.sym == SDLK_KP_2)
 		{
 			input_type_.jump_ = 1;
 		}
-		if (events.key.keysym.sym == SDLK_l)
+		if (events.key.keysym.sym == SDLK_KP_1)
 		{
 			BulletObject* p_bullet = new BulletObject();
 			p_bullet->loadImg("Bullet/Bullet.png", screen);
@@ -179,20 +224,47 @@ void MainObject2::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 				p_bullet->loadImg("Bullet/Bullet_left.png", screen);
 				p_bullet->get_bullet_dir(DIR_LEFT);
 				p_bullet->set_bullet_dir(DIR_LEFT);
-				
+				p_bullet->SetRect(rect_.x - 50, rect_.y - 10);
 			}
-			else if (status_ = walk_right)
+			else 
 			{
-				
 				p_bullet->get_bullet_dir(DIR_RIGHT);
 				p_bullet->set_bullet_dir(DIR_RIGHT);
+				p_bullet->SetRect(rect_.x + 50, rect_.y - 10);
 			}
-			p_bullet->SetRect(rect_.x, rect_.y + 10);
 			
 			p_bullet->set_x_val(BULLET_SPEED);
 			//p_bullet->set_y_val(40);
 			p_bullet->set_in_screen(true);
 			p_bullet_list_2.push_back(p_bullet);
+		}
+		if (events.key.keysym.sym == SDLK_KP_4)
+		{
+			if (normalise == false)
+			{
+				int range = rand() % 251 + 200;
+				BulletObject* sky_bullet = new BulletObject();
+				sky_bullet->loadImg("Bullet/05.png", screen);
+				sky_bullet->get_bullet_dir(DIR_DOWN);
+				sky_bullet->set_bullet_dir(DIR_DOWN);
+				sky_bullet->SetRect(rect_.x - range, 0);
+				sky_bullet->set_y_val(20);
+				sky_bullet->set_in_screen(true);
+				p_bullet_list_2.push_back(sky_bullet);
+				BulletObject* sky_bullet_2 = new BulletObject();
+				sky_bullet_2->loadImg("Bullet/05.png", screen);
+				sky_bullet_2->get_bullet_dir(DIR_DOWN);
+				sky_bullet_2->set_bullet_dir(DIR_DOWN);
+				sky_bullet_2->SetRect(rect_.x + range, 0);
+				sky_bullet_2->set_y_val(20);
+				sky_bullet_2->set_in_screen(true);
+				p_bullet_list_2.push_back(sky_bullet_2);
+			}
+	
+		}
+		if (events.key.keysym.sym == SDLK_KP_3)
+		{
+			normalise = false;
 		}
 	}
 

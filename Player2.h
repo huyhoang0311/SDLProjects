@@ -1,6 +1,8 @@
 #pragma once
 #ifndef PLAYER2_OBJECT_H
 #define PLAYER2_OBJECT_H
+
+#define NUM_FRAME_2 6
 #include"Base.h"
 #include"BulletObject.h"
 #include"CommonFunction.h"
@@ -64,6 +66,8 @@ private:
 
 	SDL_Texture* p_object_left;
 	SDL_Texture* p_object_right;
+	SDL_Texture* demon_mode_left;
+	SDL_Texture* demon_mode_right;
 
 
 	int width_frame;
@@ -72,7 +76,7 @@ private:
 
 
 
-	SDL_Rect frame_clip_[8];
+	SDL_Rect frame_clip_[100];
 
 
 	Input input_type_;
@@ -87,6 +91,8 @@ private:
 	bool on_ground_;
 
 	int map_x_, map_y_;
+	bool normalise;
+	
 };
 
 

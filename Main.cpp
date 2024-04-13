@@ -158,8 +158,7 @@ int main(int argc, char* argv[])
 				if (check1)
 				{
 					player2.RemoveBullet(r);
-					 
-					is_quit = true;
+					
 				}
 			}
 		}
@@ -181,7 +180,7 @@ int main(int argc, char* argv[])
 				{
 					
 					player.RemoveBullet(r);
-					is_quit = true;
+					
 					
 					
 				}

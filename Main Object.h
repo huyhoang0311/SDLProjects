@@ -2,7 +2,7 @@
 #ifndef MAIN_OBJECT_H
 #define MAIN_OBJECT_H
 
-
+#define NUM_FRAME 8
 using namespace std;
 #include<vector>
 #include"BulletObject.h"
@@ -67,15 +67,16 @@ private:
 
 	SDL_Texture* p_object_left;
 	SDL_Texture* p_object_right;
-
+	SDL_Texture* demon_mode_left;
+	SDL_Texture* demon_mode_right;
 
 	int width_frame;
 	int height_frame;
 
+	bool normalise;
 
 
-
-	SDL_Rect frame_clip_[8];
+	SDL_Rect frame_clip_[NUM_FRAME*2];
 
 
 	Input input_type_;

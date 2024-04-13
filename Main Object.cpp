@@ -29,7 +29,7 @@ MainObject::MainObject()
 	map_y_ = 0;
 	p_object_left = NULL;
 	p_object_right = NULL;
-
+	normalise = true;
 }
 MainObject::~MainObject()
 {
@@ -39,6 +39,7 @@ MainObject::~MainObject()
 
  void MainObject::LoadIMG( SDL_Renderer* screen)
 {	
+	 string demon_left, demon_right;
 	 string path_left = "Character/player_left.png" ;
 	 SDL_Texture* new_texture_left = NULL;
 	 SDL_Surface* load_surface = IMG_Load(path_left.c_str());
@@ -70,10 +71,48 @@ MainObject::~MainObject()
 		 SDL_FreeSurface(load_surface);
 	 }
 	 p_object_right = new_texture_left;
+	 
+
+
+	 demon_left = "Character/2.png";
+
+	 SDL_Texture* demon_texture_ = NULL;
+	 SDL_Surface* demon_surface = IMG_Load(demon_left.c_str());
+	 if (demon_surface != NULL)
+	 {
+		 SDL_SetColorKey(demon_surface, SDL_TRUE, SDL_MapRGB(demon_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
+		 demon_texture_ = SDL_CreateTextureFromSurface(screen, demon_surface);
+		 if (demon_texture_ != NULL)
+		 {
+			 rect_.w = demon_surface->w;
+			 rect_.h = demon_surface->h;
+		 }
+		 SDL_FreeSurface(demon_surface);
+	 }
+	 demon_mode_left = demon_texture_;
+
+	 demon_right = "Character/1.png";
+	 demon_surface = IMG_Load(demon_right.c_str());
+	 if (demon_surface != NULL)
+	 {
+		 SDL_SetColorKey(demon_surface, SDL_TRUE, SDL_MapRGB(demon_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
+		 demon_texture_ = SDL_CreateTextureFromSurface(screen, demon_surface);
+		 if (demon_texture_ != NULL)
+		 {
+			 rect_.w = demon_surface->w;
+			 rect_.h = demon_surface->h;
+		 }
+		 SDL_FreeSurface(demon_surface);
+	 }
+	 demon_mode_right = demon_texture_;
 
 
 
-	width_frame = rect_.w / 8;
+
+
+
+
+	width_frame = rect_.w / NUM_FRAME;
 	height_frame = rect_.h;
 }
 
@@ -82,7 +121,7 @@ void MainObject::set_clip()
 	if (width_frame > 0 && height_frame > 0)
 	{
 		
-		for (int i = 0; i <= 7; ++i)
+		for (int i = 0; i < NUM_FRAME; ++i)
 		{
 			frame_clip_[i].x = i * width_frame;
 			frame_clip_[i].y = 0;
@@ -117,13 +156,28 @@ void MainObject::Show(SDL_Renderer* des)
 	SDL_Rect *current_clip = &frame_clip_[frame_];
 	SDL_Rect  renderQuad = { rect_.x, rect_.y, width_frame, height_frame };
 
-	if (status_ == walk_left)
+	if (normalise == true)
 	{
-		SDL_RenderCopy(des, p_object_left, current_clip, &renderQuad);
+		if (status_ == walk_left)
+		{
+			SDL_RenderCopy(des, p_object_left, current_clip, &renderQuad);
+		}
+		else
+		{
+			SDL_RenderCopy(des, p_object_right, current_clip, &renderQuad);
+		}
 	}
 	else
 	{
-		SDL_RenderCopy(des, p_object_right, current_clip, &renderQuad);
+		if (status_ == walk_left)
+		{
+			SDL_RenderCopy(des, demon_mode_left, current_clip, &renderQuad);
+		}
+		else
+		{
+			SDL_RenderCopy(des, demon_mode_right, current_clip, &renderQuad);
+		}
+
 	}
 	
 }
@@ -171,11 +225,11 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 	//special movement
 	if (events.type == SDL_KEYDOWN)
 	{
-		if (events.key.keysym.sym == SDLK_g)
+		if (events.key.keysym.sym == SDLK_k)
 		{
 			input_type_.jump_ = 1;
 		}
-		if (events.key.keysym.sym == SDLK_h)
+		if (events.key.keysym.sym == SDLK_j)
 		{
 			BulletObject* p_bullet = new BulletObject();
 			p_bullet->loadImg("Bullet/Laser.png", screen);
@@ -197,6 +251,48 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 			p_bullet->set_in_screen(true);
 			p_bullet_list.push_back(p_bullet);
 		}
+		if (events.key.keysym.sym == SDLK_o)
+		{
+			normalise = false;
+			
+		}
+		if (events.key.keysym.sym == SDLK_u)
+		{
+			if (normalise == false)
+			{
+				BulletObject* p_bullet = new BulletObject();
+				p_bullet->loadImg("Bullet/55.png", screen);
+				if (status_ == walk_left)
+				{
+					p_bullet->loadImg("Bullet/55_left.png", screen);
+					p_bullet->get_bullet_dir(DIR_LEFT);
+					p_bullet->set_bullet_dir(DIR_LEFT);
+					p_bullet->SetRect(rect_.x - 50, rect_.y - 40);
+				}
+				else
+				{
+					p_bullet->get_bullet_dir(DIR_RIGHT);
+					p_bullet->set_bullet_dir(DIR_RIGHT);
+					p_bullet->SetRect(rect_.x + 50, rect_.y - 40);
+				}
+
+				p_bullet->set_x_val(BULLET_SPEED);
+				//p_bullet->set_y_val(-10);
+				p_bullet->set_in_screen(true);
+				p_bullet_list.push_back(p_bullet);
+
+			}
+		}
+		if (events.key.keysym.sym == SDLK_l)
+		{
+			if (normalise == false)
+			{
+				if (status_ == walk_left) { x_pos -= 300; }
+				else { x_pos += 300; }
+			}
+		}
+		
+	
 		
 	}
 }
