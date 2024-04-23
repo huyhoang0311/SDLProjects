@@ -228,7 +228,10 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 	{
 		if (events.key.keysym.sym == SDLK_k)
 		{
-			input_type_.jump_ = 1;
+			if (rect_.y >= 50)
+			{
+				input_type_.jump_ = 1;
+			}
 		}
 		if (events.key.keysym.sym == SDLK_j)
 		{

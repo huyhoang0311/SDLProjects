@@ -47,7 +47,7 @@ bool InitData()
 bool loadBackground()
 {
 	
-	bool ret = g_Background.loadImg("OIG3.jpg",gScreen);
+	bool ret = g_Background.loadImg("images/OIG3.jpg",gScreen);
 	if (ret == false)
 	{
 		return false;

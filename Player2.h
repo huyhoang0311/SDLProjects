@@ -9,7 +9,7 @@
 #include"Main Object.h"
 #include<vector>
 using namespace std;
-class MainObject2 :public BaseObject
+class MainObject2 :public MainObject
 {
 public:MainObject2();
 	  ~MainObject2();
