@@ -51,6 +51,10 @@ public:MainObject();
 	  int get_width_frame();
 	  int get_height_frame();
 
+	  bool normalise;
+	  bool able_to_demon;
+
+
 private:
 
 	vector<BulletObject*> p_bullet_list;
@@ -73,8 +77,7 @@ private:
 	int width_frame;
 	int height_frame;
 
-	bool normalise;
-
+	
 
 	SDL_Rect frame_clip_[NUM_FRAME*2];
 

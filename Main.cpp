@@ -4,9 +4,15 @@
 #include"Base.h"
 #include"Player2.h"
 #include"Timer.h"
+#include"Heath.h"
 using namespace std;
 
 BaseObject g_Background;
+int type_menu = 0;
+bool is_quit = false;
+
+
+
 
 
 bool InitData()
@@ -56,6 +62,123 @@ void close()
 
 }
 
+bool check_mouse_vs_item(const int& x, const int& y, const SDL_Rect& rect) 
+{
+	if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h) {
+		return true;
+	}
+	return false;
+}
+
+
+
+
+void ShowMenu(SDL_Renderer* screen) {
+	BaseObject menu;
+	if (!menu.loadImg("images/menu.jpg", screen)) {
+		is_quit = true;
+		return;
+	}
+
+	BaseObject list_menu[8];
+	list_menu[0].loadImg("images/playbutton.png", gScreen);
+	list_menu[1].loadImg("images/replaybutton.png", gScreen);
+	list_menu[2].loadImg("images/exitbutton.png", gScreen);
+	list_menu[3].loadImg("images/playbutton1.png", gScreen);
+	list_menu[4].loadImg("images/replaybutton1.png",gScreen);
+	list_menu[5].loadImg("images/exitbutton1.png",gScreen);
+	list_menu[6].loadImg("images/Player 1 win.png", gScreen);
+	list_menu[7].loadImg("images/Player 2 win.png", gScreen);
+	
+
+	list_menu[0].SetRect(355, 300);
+	list_menu[1].SetRect(355, 300);
+	list_menu[2].SetRect(355, 370);
+	list_menu[3].SetRect(345, 297);
+	list_menu[4].SetRect(345, 297);
+	list_menu[5].SetRect(345, 367);
+	list_menu[6].SetRect(0, 0);
+	list_menu[7].SetRect(0, 0);
+
+
+	bool quit = false;
+	while (!quit) {
+		while (SDL_PollEvent(&g_Event) != 0) {
+
+
+			menu.Render(gScreen);
+			if (type_menu == 0) {
+				list_menu[0].Render(gScreen);
+				list_menu[2].Render(gScreen);
+			}
+			else if (type_menu == 1) 
+			{
+				list_menu[6].Render(gScreen);
+
+				list_menu[1].Render(gScreen);
+				list_menu[2].Render(gScreen);
+			}
+			else if (type_menu == 2)
+			{
+				list_menu[7].Render(gScreen);
+
+				list_menu[1].Render(gScreen);
+				list_menu[2].Render(gScreen);
+			}
+
+
+			int mouseX, mouseY;
+			SDL_GetMouseState(&mouseX, &mouseY);
+
+			if (g_Event.type == SDL_QUIT) {
+				quit = true;
+				is_quit = true;
+			}
+
+
+			else if (g_Event.type == SDL_MOUSEMOTION) {
+
+				for (int i = 0; i < 3; i++) {
+					if (check_mouse_vs_item(mouseX, mouseY, list_menu[i].GetRect())) {
+						if (i == 0 && type_menu == 0) list_menu[3].Render(gScreen);
+						else if (i == 1 && type_menu == 1) list_menu[4].Render(gScreen);
+						else if (i == 2) list_menu[5].Render(gScreen);
+					}
+				}
+			}
+
+			if (g_Event.type == SDL_MOUSEBUTTONDOWN) {
+
+				if (g_Event.button.button == SDL_BUTTON_LEFT) {
+					for (int i = 3; i < 6; i++) {
+						if (check_mouse_vs_item(mouseX, mouseY, list_menu[i].GetRect())) {
+							if (i == 3 || i == 4) { quit = true; }
+							else if (i == 5) { is_quit = true; quit = true; }
+						}
+					}
+				}
+
+
+			}
+
+		}
+		SDL_RenderPresent(gScreen);
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -91,10 +214,37 @@ int main(int argc, char* argv[])
 	player2.LoadIMG(gScreen);
 	player2.set_clip();
 
-	bool is_quit = false;
+
+	Health *health_bar=new Health();
+	health_bar->loadImg("Health/empty health bar.png", gScreen);
+	health_bar->SetRect(0, 0);
+
+
+
+
+
+	Health *health_ = new Health();
+	health_->loadImg("Health/Health.png", gScreen);
+	health_->SetRect(0, 0);
+
+
+	Health* health_bar_2 = new Health();
+	health_bar_2->loadImg("Health/empty health bar.png", gScreen);
+	health_bar_2->SetRect(850, 0);
+	Health* health_2 = new Health();
+	health_2->loadImg("Health/Health_2.png", gScreen);
+	health_2->SetRect(850, 0);
+
+
+
+	
+
+	ShowMenu(gScreen);
 	while (!is_quit)
 	{
 		fps_clock.start();
+		
+
 		while (SDL_PollEvent(&g_Event) != 0)
 		{
 			if (g_Event.type == SDL_QUIT)
@@ -113,8 +263,6 @@ int main(int argc, char* argv[])
 
 
 		g_Background.Render(gScreen, NULL);
-		
-
 
 		Map map_data = game_map.getMap();
 
@@ -129,16 +277,21 @@ int main(int argc, char* argv[])
 		player.DoPlayer(map_data);
 		player.Show(gScreen);
 
-		
+		health_bar->Show(gScreen);
+		health_->Update(gScreen);
 
+		health_bar_2->Show(gScreen);
+		health_2->Update(gScreen);
 
 
 		game_map.SetMap(map_data);
 		game_map.Drawmap(gScreen); 
 
 
-		int health_1 = 5;
-		int health_2 = 5;
+
+
+
+
 
 
 		vector<BulletObject*> bullet_arr = player2.get_bullet_list();
@@ -158,6 +311,7 @@ int main(int argc, char* argv[])
 				if (check1)
 				{
 					player2.RemoveBullet(r);
+					health_->TakeDamage(5);
 					
 				}
 			}
@@ -180,9 +334,7 @@ int main(int argc, char* argv[])
 				{
 					
 					player.RemoveBullet(r);
-					
-					
-					
+					health_2->TakeDamage(10);
 				}
 			}
 		}
@@ -201,6 +353,44 @@ int main(int argc, char* argv[])
 					player2.RemoveBullet(jj);
 				}
 			}
+		}
+
+
+		if (health_->curren_health <= 0.5 * health_->max_health)
+		{
+			player.able_to_demon = true;
+		}
+		if (health_2->curren_health <= 0.5 * health_2->max_health)
+		{
+			player2.able_to_demon = true;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+		if (health_->curren_health <= 0 )
+		{
+			health_->curren_health = health_->max_health;
+			health_2->curren_health = health_2->max_health;
+			type_menu = 2;
+			ShowMenu(gScreen);
+		}
+		if (health_2->curren_health <= 0)
+		{
+			health_->curren_health = health_->max_health;
+			health_2->curren_health = health_2->max_health;
+			type_menu = 1;
+			ShowMenu(gScreen);
+
 		}
 		SDL_RenderPresent(gScreen);
 

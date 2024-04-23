@@ -30,6 +30,7 @@ MainObject::MainObject()
 	p_object_left = NULL;
 	p_object_right = NULL;
 	normalise = true;
+	able_to_demon = false;
 }
 MainObject::~MainObject()
 {
@@ -245,7 +246,7 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 				p_bullet->get_bullet_dir(DIR_RIGHT);
 				p_bullet->set_bullet_dir(DIR_RIGHT);
 			}
-			p_bullet->SetRect(rect_.x +  30,rect_.y);
+			p_bullet->SetRect(rect_.x + 30,rect_.y);
 			p_bullet->set_x_val(BULLET_SPEED);
 			//p_bullet->set_y_val(40);
 			p_bullet->set_in_screen(true);
@@ -253,7 +254,10 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		}
 		if (events.key.keysym.sym == SDLK_o)
 		{
-			normalise = false;
+			if (able_to_demon == true)
+			{
+				normalise = false;
+			}
 			
 		}
 		if (events.key.keysym.sym == SDLK_u)

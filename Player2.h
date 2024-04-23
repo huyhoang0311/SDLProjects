@@ -50,6 +50,8 @@ public:MainObject2();
 	  float get_y_pos();
 	  int get_width_frame();
 	  int get_height_frame();
+	  bool normalise;
+	  bool able_to_demon;
 private:
 
 	vector<BulletObject*> p_bullet_list_2;
@@ -91,7 +93,7 @@ private:
 	bool on_ground_;
 
 	int map_x_, map_y_;
-	bool normalise;
+	
 	
 };
 

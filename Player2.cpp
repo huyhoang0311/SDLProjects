@@ -30,6 +30,7 @@ MainObject2::MainObject2()
 	input_type_.down_ = 0;
 	on_ground_ = false;
 	normalise = true;
+	able_to_demon = false;
 	map_x_ = 0;
 	map_y_ = 0;
 }
@@ -264,7 +265,10 @@ void MainObject2::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		}
 		if (events.key.keysym.sym == SDLK_KP_3)
 		{
-			normalise = false;
+			if (able_to_demon == true)
+			{
+				normalise = false;
+			}
 		}
 	}
 
