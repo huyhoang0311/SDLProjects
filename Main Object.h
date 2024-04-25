@@ -55,6 +55,7 @@ public:MainObject();
 	  bool able_to_demon;
 	  int lastShotTime;
 	  int CurrentShotTime;
+	  int special_shot;
 
 
 

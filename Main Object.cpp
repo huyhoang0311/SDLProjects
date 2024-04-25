@@ -33,6 +33,7 @@ MainObject::MainObject()
 	able_to_demon = false;
 	lastShotTime = 0;
 	CurrentShotTime = 0;
+	special_shot = 0;
 }
 MainObject::~MainObject()
 {
@@ -272,29 +273,33 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		}
 		if (events.key.keysym.sym == SDLK_u)
 		{
-			if (normalise == false)
+			if (special_shot <= 3)
 			{
-				BulletObject* p_bullet = new BulletObject();
-				p_bullet->loadImg("Bullet/55.png", screen);
-				if (status_ == walk_left)
+				if (normalise == false)
 				{
-					p_bullet->loadImg("Bullet/55_left.png", screen);
-					p_bullet->get_bullet_dir(DIR_LEFT);
-					p_bullet->set_bullet_dir(DIR_LEFT);
-					p_bullet->SetRect(rect_.x - 50, rect_.y - 40);
-				}
-				else
-				{
-					p_bullet->get_bullet_dir(DIR_RIGHT);
-					p_bullet->set_bullet_dir(DIR_RIGHT);
-					p_bullet->SetRect(rect_.x + 50, rect_.y - 40);
-				}
+					special_shot++;
+					BulletObject* p_bullet = new BulletObject();
+					p_bullet->loadImg("Bullet/55.png", screen);
+					if (status_ == walk_left)
+					{
+						p_bullet->loadImg("Bullet/55_left.png", screen);
+						p_bullet->get_bullet_dir(DIR_LEFT);
+						p_bullet->set_bullet_dir(DIR_LEFT);
+						p_bullet->SetRect(rect_.x - 50, rect_.y - 40);
+					}
+					else
+					{
+						p_bullet->get_bullet_dir(DIR_RIGHT);
+						p_bullet->set_bullet_dir(DIR_RIGHT);
+						p_bullet->SetRect(rect_.x + 50, rect_.y - 40);
+					}
 
-				p_bullet->set_x_val(BULLET_SPEED);
-				//p_bullet->set_y_val(-10);
-				p_bullet->set_in_screen(true);
-				p_bullet_list.push_back(p_bullet);
+					p_bullet->set_x_val(BULLET_SPEED);
+					//p_bullet->set_y_val(-10);
+					p_bullet->set_in_screen(true);
+					p_bullet_list.push_back(p_bullet);
 
+				}
 			}
 		}
 		if (events.key.keysym.sym == SDLK_l)

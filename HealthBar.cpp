@@ -3,7 +3,7 @@
 #include"Heath.h"
 Health::Health()
 {
-	max_health = 500;
+	max_health = 100;
 	max_width = 400;
 	curren_health = max_health;
 	curren_width = max_width;
