@@ -31,6 +31,8 @@ MainObject::MainObject()
 	p_object_right = NULL;
 	normalise = true;
 	able_to_demon = false;
+	lastShotTime = 0;
+	CurrentShotTime = 0;
 }
 MainObject::~MainObject()
 {
@@ -235,25 +237,30 @@ void MainObject::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		}
 		if (events.key.keysym.sym == SDLK_j)
 		{
-			BulletObject* p_bullet = new BulletObject();
-			p_bullet->loadImg("Bullet/Laser.png", screen);
-			if (status_ == walk_left)
+			CurrentShotTime = SDL_GetTicks();
+			if (lastShotTime == 0 || CurrentShotTime >= lastShotTime + 500)
 			{
-				p_bullet->loadImg("Bullet/Laser_left.png", screen);
-				p_bullet->get_bullet_dir(DIR_LEFT);
-				p_bullet->set_bullet_dir(DIR_LEFT);
+				lastShotTime = CurrentShotTime;
+				BulletObject* p_bullet = new BulletObject();
+				p_bullet->loadImg("Bullet/Laser.png", screen);
+				if (status_ == walk_left)
+				{
+					p_bullet->loadImg("Bullet/Laser_left.png", screen);
+					p_bullet->get_bullet_dir(DIR_LEFT);
+					p_bullet->set_bullet_dir(DIR_LEFT);
+				}
+				else if (status_ = walk_right)
+				{
+
+					p_bullet->get_bullet_dir(DIR_RIGHT);
+					p_bullet->set_bullet_dir(DIR_RIGHT);
+				}
+				p_bullet->SetRect(rect_.x + 30, rect_.y);
+				p_bullet->set_x_val(BULLET_SPEED);
+				//p_bullet->set_y_val(40);
+				p_bullet->set_in_screen(true);
+				p_bullet_list.push_back(p_bullet);
 			}
-			else if (status_ = walk_right)
-			{
-				
-				p_bullet->get_bullet_dir(DIR_RIGHT);
-				p_bullet->set_bullet_dir(DIR_RIGHT);
-			}
-			p_bullet->SetRect(rect_.x + 30,rect_.y);
-			p_bullet->set_x_val(BULLET_SPEED);
-			//p_bullet->set_y_val(40);
-			p_bullet->set_in_screen(true);
-			p_bullet_list.push_back(p_bullet);
 		}
 		if (events.key.keysym.sym == SDLK_o)
 		{
@@ -316,13 +323,13 @@ void MainObject::HandleBullet(SDL_Renderer*des)
 			if (p_bullet->get_in_screen() == true)
 			{
 				p_bullet->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
-				p_bullet->Render(des);
+				 p_bullet->Render(des); 
+				 
 			}
 			else
 			{
 				if (p_bullet != NULL)
 				{
-					
 					p_bullet = NULL;
 				}
 				

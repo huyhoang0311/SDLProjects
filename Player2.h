@@ -52,6 +52,12 @@ public:MainObject2();
 	  int get_height_frame();
 	  bool normalise;
 	  bool able_to_demon;
+	  int lastShotTime;
+	  int CurrentShotTime;
+
+	  float x_pos;
+	  float y_pos;
+
 private:
 
 	vector<BulletObject*> p_bullet_list_2;
@@ -59,9 +65,6 @@ private:
 	float x_val;
 	float y_val;
 
-
-	float x_pos;
-	float y_pos;
 
 
 

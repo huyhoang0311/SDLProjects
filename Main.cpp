@@ -347,6 +347,8 @@ int main(int argc, char* argv[])
 				SDL_Rect bullet_Rect_a = p2_bullet_->GetRect();
 				SDL_Rect bullet_Rect_b = p1_bullet_->GetRect();
 				bool check3 = CommonFunction::CheckCollision(bullet_Rect_a, bullet_Rect_b);
+
+				
 				if (check3)
 				{
 					player.RemoveBullet(ii);
@@ -365,22 +367,13 @@ int main(int argc, char* argv[])
 			player2.able_to_demon = true;
 		}
 
-
-
-
-
-
-
-
-
-
-
-
-
 		if (health_->curren_health <= 0 )
 		{
 			health_->curren_health = health_->max_health;
 			health_2->curren_health = health_2->max_health;
+			player.x_pos = 0;
+			player2.x_pos = 1100;
+
 			type_menu = 2;
 			ShowMenu(gScreen);
 		}
@@ -388,6 +381,9 @@ int main(int argc, char* argv[])
 		{
 			health_->curren_health = health_->max_health;
 			health_2->curren_health = health_2->max_health;
+			player.x_pos = 0;
+			player2.x_pos = 1100;
+			
 			type_menu = 1;
 			ShowMenu(gScreen);
 

@@ -53,6 +53,14 @@ public:MainObject();
 
 	  bool normalise;
 	  bool able_to_demon;
+	  int lastShotTime;
+	  int CurrentShotTime;
+
+
+
+
+	  float x_pos;
+	  float y_pos;
 
 
 private:
@@ -62,9 +70,6 @@ private:
 	float x_val;
 	float y_val;
 
-
-	float x_pos;
-	float y_pos;
 
 
 
@@ -94,6 +99,10 @@ private:
 	bool on_ground_;
 
 	int map_x_, map_y_;
+
+
+
+
 };
 
 

@@ -31,6 +31,8 @@ MainObject2::MainObject2()
 	on_ground_ = false;
 	normalise = true;
 	able_to_demon = false;
+	lastShotTime = 0;
+	CurrentShotTime = 0;
 	map_x_ = 0;
 	map_y_ = 0;
 }
@@ -218,26 +220,31 @@ void MainObject2::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		}
 		if (events.key.keysym.sym == SDLK_KP_1)
 		{
-			BulletObject* p_bullet = new BulletObject();
-			p_bullet->loadImg("Bullet/Bullet.png", screen);
-			if (status_ == walk_left)
+			CurrentShotTime = SDL_GetTicks();
+			if (lastShotTime == 0 || CurrentShotTime >= lastShotTime + 500)
 			{
-				p_bullet->loadImg("Bullet/Bullet_left.png", screen);
-				p_bullet->get_bullet_dir(DIR_LEFT);
-				p_bullet->set_bullet_dir(DIR_LEFT);
-				p_bullet->SetRect(rect_.x - 50, rect_.y - 10);
+				lastShotTime = CurrentShotTime;
+				BulletObject* p_bullet = new BulletObject();
+				p_bullet->loadImg("Bullet/Bullet.png", screen);
+				if (status_ == walk_left)
+				{
+					p_bullet->loadImg("Bullet/Bullet_left.png", screen);
+					p_bullet->get_bullet_dir(DIR_LEFT);
+					p_bullet->set_bullet_dir(DIR_LEFT);
+					p_bullet->SetRect(rect_.x - 50, rect_.y - 10);
+				}
+				else
+				{
+					p_bullet->get_bullet_dir(DIR_RIGHT);
+					p_bullet->set_bullet_dir(DIR_RIGHT);
+					p_bullet->SetRect(rect_.x + 50, rect_.y - 10);
+				}
+
+				p_bullet->set_x_val(BULLET_SPEED);
+				//p_bullet->set_y_val(40);
+				p_bullet->set_in_screen(true);
+				p_bullet_list_2.push_back(p_bullet);
 			}
-			else 
-			{
-				p_bullet->get_bullet_dir(DIR_RIGHT);
-				p_bullet->set_bullet_dir(DIR_RIGHT);
-				p_bullet->SetRect(rect_.x + 50, rect_.y - 10);
-			}
-			
-			p_bullet->set_x_val(BULLET_SPEED);
-			//p_bullet->set_y_val(40);
-			p_bullet->set_in_screen(true);
-			p_bullet_list_2.push_back(p_bullet);
 		}
 		if (events.key.keysym.sym == SDLK_KP_4)
 		{
@@ -284,7 +291,7 @@ void MainObject2::HandleBullet(SDL_Renderer* des)
 			if (p_bullet->get_in_screen() == true)
 			{
 				p_bullet->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
-				p_bullet->Render(des);
+				p_bullet->Render(des); 
 			}
 			else
 			{
