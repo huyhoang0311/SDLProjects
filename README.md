@@ -64,7 +64,7 @@ Một vài main function được dùng trong game:
 2. Chọn map.
 3. Chọn vũ khí.
 4. Hiệu ứng nổ, âm thanh, hiệu ứng cho trạng thái demon
-DEMO GAME: https://www.youtube.com/watch?v=reSLA1hms-M
+DEMO GAME: https://www.youtube.com/watch?v=J70xjzMNnPs
 ## Contact:
 Link github: (https://github.com/huyhoang0311/SDLProjects)
 📧 mail: tranhuuhuyhoang3017@gmail.com
