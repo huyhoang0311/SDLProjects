@@ -16,14 +16,14 @@ Lazyfoo Productions: https://lazyfoo.net/tutorials/SDL/index.php
 - Background: Pinterest
 - Đạn: Itch.io
 
-//Phần code game (code nhân vật) được em tham khảo khá nhiều từ Phattrienphanmem123az Tutorials
+//Phần code game (code nhân vật) được em tham khảo khá nhiều từ Phattrienphanmem123az Tutorials </br>
   Code của em đã upgrade thêm 1 số phần để phát triển từ Phattrienphanmem123az Tutorials -> Game đối kháng 2 người như xử lý va chạm 2 người, tối ưu hóa bộ nhớ, xử lý thanh máu, menu,.
 
 ## CÁCH MỞ
 Step 1: Clone repo / Dowload file zip </br>
 Step 2: Setting Microsoft Visual Studio và SDL2.0 </br>
 Step 3: Open main.cpp by Visual Studio và build project</br>
-Step 4: Enjoy </br?
+Step 4: Enjoy </br>
 
 ## CÁCH CHƠI
 # INGAME:
