@@ -199,7 +199,7 @@ void MainObject2::HandleInputEvents(SDL_Event events, SDL_Renderer* screen)
 		{
 		case SDLK_RIGHT:
 		{
-
+			input_type_.right_ = 0;
 		}
 		break;
 		case SDLK_LEFT:
