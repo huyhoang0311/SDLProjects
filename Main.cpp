@@ -399,7 +399,11 @@ int main(int argc, char* argv[])
 			health_2->curren_health = health_2->max_health;
 			player.x_pos = 0;
 			player2.x_pos = 1100;
-
+			
+			player.normalise = true;
+			player2.normalise = true;
+			player.able_to_demon = false;
+			player2.able_to_demon = false;
 			type_menu = 2;
 			ShowMenu(gScreen);
 		}
@@ -409,7 +413,10 @@ int main(int argc, char* argv[])
 			health_2->curren_health = health_2->max_health;
 			player.x_pos = 0;
 			player2.x_pos = 1100;
-			
+			player.normalise = true;
+			player2.normalise = true;
+			player.able_to_demon = false;
+			player2.able_to_demon = false;
 			type_menu = 1;
 			ShowMenu(gScreen);
 		}
