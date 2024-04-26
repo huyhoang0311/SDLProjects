@@ -1,7 +1,7 @@
 ### GAME INT2215 50: BLEACH VS NARUTO 2.0 - Made by Trần Hữu Huy Hoàng  
 
 ## Author Information
-Họ tên: Trần Hữu Huy Hoàng
+Họ tên: Trần Hữu Huy Hoàng </br>
 Mã số sinh viên: 23020073
 
 ## IDEA:
@@ -20,7 +20,7 @@ Lazyfoo Productions: https://lazyfoo.net/tutorials/SDL/index.php
   Code của em đã upgrade thêm 1 số phần để phát triển từ Phattrienphanmem123az Tutorials -> Game đối kháng 2 người như xử lý va chạm 2 người, tối ưu hóa bộ nhớ, xử lý thanh máu, menu,.
 
 ## CÁCH MỞ
-Step 1: Clone repo / Dowload file zip
+Step 1: Clone repo / Dowload file zip </br>
 Step 2: Setting Microsoft Visual Studio và SDL2.0 </br>
 Step 3: Open main.cpp by Visual Studio và build project</br>
 Step 4: Enjoy </br?
