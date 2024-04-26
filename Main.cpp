@@ -80,7 +80,7 @@ void ShowMenu(SDL_Renderer* screen) {
 		return;
 	}
 
-	BaseObject list_menu[8];
+	BaseObject list_menu[9];
 	list_menu[0].loadImg("images/playbutton.png", gScreen);
 	list_menu[1].loadImg("images/replaybutton.png", gScreen);
 	list_menu[2].loadImg("images/exitbutton.png", gScreen);
@@ -89,6 +89,8 @@ void ShowMenu(SDL_Renderer* screen) {
 	list_menu[5].loadImg("images/exitbutton1.png",gScreen);
 	list_menu[6].loadImg("images/Player 1 win.png", gScreen);
 	list_menu[7].loadImg("images/Player 2 win.png", gScreen);
+	list_menu[8].loadImg("images/menu_pause.jpg", gScreen);
+	
 	
 
 	list_menu[0].SetRect(355, 300);
@@ -99,12 +101,12 @@ void ShowMenu(SDL_Renderer* screen) {
 	list_menu[5].SetRect(345, 367);
 	list_menu[6].SetRect(0, 0);
 	list_menu[7].SetRect(0, 0);
+	list_menu[8].SetRect(0, 0);
 
 
 	bool quit = false;
 	while (!quit) {
 		while (SDL_PollEvent(&g_Event) != 0) {
-
 
 			menu.Render(gScreen);
 			if (type_menu == 0) {
@@ -121,10 +123,17 @@ void ShowMenu(SDL_Renderer* screen) {
 			else if (type_menu == 2)
 			{
 				list_menu[7].Render(gScreen);
-
 				list_menu[1].Render(gScreen);
 				list_menu[2].Render(gScreen);
 			}
+			else if (type_menu == 3)
+			{
+				list_menu[8].Render(gScreen);
+				list_menu[0].Render(gScreen);
+				list_menu[2].Render(gScreen);
+			
+			}
+
 
 
 			int mouseX, mouseY;
@@ -140,8 +149,24 @@ void ShowMenu(SDL_Renderer* screen) {
 
 				for (int i = 0; i < 3; i++) {
 					if (check_mouse_vs_item(mouseX, mouseY, list_menu[i].GetRect())) {
-						if (i == 0 && type_menu == 0) list_menu[3].Render(gScreen);
-						else if (i == 1 && type_menu == 1) list_menu[4].Render(gScreen);
+						//if (i == 0 && type_menu == 0) list_menu[3].Render(gScreen);
+
+						if (i == 0)
+						{
+							if (type_menu == 0 || type_menu == 3)
+							{
+								list_menu[3].Render(gScreen);
+							}
+						}
+
+
+						else if (i == 1)
+						{
+							if (type_menu == 1 || type_menu == 2)
+							{
+								list_menu[4].Render(gScreen);
+							}
+						}
 						else if (i == 2) list_menu[5].Render(gScreen);
 					}
 				}
@@ -164,18 +189,7 @@ void ShowMenu(SDL_Renderer* screen) {
 		}
 		SDL_RenderPresent(gScreen);
 	}
-
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -251,6 +265,18 @@ int main(int argc, char* argv[])
 			{
 				is_quit = true;
 			}
+
+			if (g_Event.type == SDL_KEYDOWN)
+			{
+				if (g_Event.key.keysym.sym == SDLK_SPACE)
+				{
+					type_menu = 3;
+					ShowMenu(gScreen);
+				}
+			}
+
+
+
 
 			
 			player2.HandleInputEvents(g_Event, gScreen);
@@ -386,8 +412,16 @@ int main(int argc, char* argv[])
 			
 			type_menu = 1;
 			ShowMenu(gScreen);
-
 		}
+
+
+
+
+
+
+
+
+
 		SDL_RenderPresent(gScreen);
 
 
